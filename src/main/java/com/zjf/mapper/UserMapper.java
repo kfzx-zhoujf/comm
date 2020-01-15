@@ -18,4 +18,7 @@ public interface UserMapper {
     //#{}类的时候自动放mybatis形参， 不是类需要加@Param()
     @Select("select * from user where token=#{token}")
     User findByToken(@Param("token") String token);
+
+    @Select("select * from user where id=#{id}")
+    User findById(@Param("id") Integer id);
 }
