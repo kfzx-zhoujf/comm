@@ -1,7 +1,6 @@
 package com.zjf.controller;
 
 import com.zjf.dto.PaginationDTO;
-import com.zjf.dto.QuestionDTO;
 import com.zjf.mapper.UserMapper;
 import com.zjf.model.User;
 import com.zjf.service.QuestionService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @author zjf
@@ -33,7 +31,7 @@ public class IndexController {
     public String index(HttpServletRequest request,
                         Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "2") Integer size) {
+                        @RequestParam(name = "size", defaultValue = "5") Integer size) {
         //访问首页时，循环看cookies，是否有“token”的数据，有就找到user，并set session
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0) {
