@@ -1,7 +1,6 @@
 package com.zjf.controller;
 
 import com.zjf.dto.QuestionDTO;
-import com.zjf.mapper.QuestionMapper;
 import com.zjf.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
