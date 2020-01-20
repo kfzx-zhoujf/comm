@@ -74,4 +74,16 @@ public class QuestionService {
 
         return paginationDTO;
     }
+
+    public QuestionDTO getById(Integer id) {
+        //新建一个question类从mapper获取
+        Question question =questionMapper.getById(id);
+        //新建一个dto，将question传到dto
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question, questionDTO);
+        //新建一个user，将user传到dto
+        User user = userMapper.findById(question.getCreator());
+        questionDTO.setUser(user);
+        return questionDTO;
+    }
 }
