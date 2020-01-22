@@ -4,6 +4,7 @@ import com.zjf.dto.PaginationDTO;
 import com.zjf.dto.QuestionDTO;
 import com.zjf.exception.CustomizeErrorCode;
 import com.zjf.exception.CustomizeException;
+import com.zjf.mapper.QuestionExtMapper;
 import com.zjf.mapper.QuestionMapper;
 import com.zjf.mapper.UserMapper;
 import com.zjf.model.Question;
@@ -30,6 +31,9 @@ public class QuestionService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
@@ -98,7 +102,7 @@ public class QuestionService {
         Question question = questionMapper.selectByPrimaryKey(id);
 
         //如果id为空，则出错
-        if (question == null) {
+        if (question.getId() == null) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
 
@@ -118,6 +122,9 @@ public class QuestionService {
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
             //questionMapper.create(question);
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.insert(question);
         } else {
             //更新
@@ -136,5 +143,18 @@ public class QuestionService {
             }
         }
 
+    }
+
+    public void incView(Integer id) {
+//        Question question = questionMapper.selectByPrimaryKey(id);
+//        Question updateQuestion = new Question();
+//        updateQuestion.setViewCount(question.getViewCount() + 1);
+//        QuestionExample questionExample = new QuestionExample();
+//        questionExample.createCriteria().andIdEqualTo(id);
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+//        questionMapper.updateByExampleSelective(updateQuestion, questionExample);
     }
 }
