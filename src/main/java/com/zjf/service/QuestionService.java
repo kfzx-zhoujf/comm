@@ -2,6 +2,8 @@ package com.zjf.service;
 
 import com.zjf.dto.PaginationDTO;
 import com.zjf.dto.QuestionDTO;
+import com.zjf.exception.CustomizeErrorCode;
+import com.zjf.exception.CustomizeException;
 import com.zjf.mapper.QuestionMapper;
 import com.zjf.mapper.UserMapper;
 import com.zjf.model.Question;
@@ -95,6 +97,12 @@ public class QuestionService {
         //Question question = questionMapper.getById(id);
         Question question = questionMapper.selectByPrimaryKey(id);
 
+        //如果id为空，则出错
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+
+
         //新建一个dto，将question传到dto
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
@@ -122,7 +130,10 @@ public class QuestionService {
             updateQuestion.setTag(question.getTag());
             QuestionExample example = new QuestionExample();
             example.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (updated != 1) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
 
     }
