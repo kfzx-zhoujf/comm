@@ -29,7 +29,7 @@ public class PublishController {
     private QuestionService questionService;
 
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable("id") Integer id,
+    public String edit(@PathVariable("id") Long id,
                        Model model) {
         QuestionDTO question = questionService.getById(id);
         //model可以在页面上直接获取到
@@ -50,7 +50,7 @@ public class PublishController {
             @RequestParam(name = "title", required = false) String title,
             @RequestParam(name = "description", required = false) String description,
             @RequestParam(name = "tag", required = false) String tag,
-            @RequestParam(name = "id", required = false) Integer id,
+            @RequestParam(name = "id", required = false) Long id,
             HttpServletRequest request,
             Model model) {
 
