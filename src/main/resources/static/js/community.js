@@ -5,6 +5,11 @@ function post() {
 
     var content = $("#comment_content").val();
     // console.log(content);
+
+    if(!content){
+        alert("不能回复空内容~~~")
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "/comment",
@@ -16,7 +21,8 @@ function post() {
         }),
         success: function (response) {
             if (response.code == 200) {
-                $("#comment_section").hide();
+                //$("#comment_section").hide();
+                window.location.reload();
             } else {
                 if (response.code == 2003) {
                     //判断是不是登录异常,是则重新登录

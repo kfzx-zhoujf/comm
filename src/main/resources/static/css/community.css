@@ -50,6 +50,10 @@ body {
     border-bottom: 1px solid #eee;
 }
 
+.question-title {
+    margin-top: 25px;
+}
+
 .question-sp {
     margin-top: 0;
 }
