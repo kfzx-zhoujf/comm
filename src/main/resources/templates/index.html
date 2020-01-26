@@ -41,7 +41,7 @@
                     <span th:text="${question.description}"></span> <br>
                     <span class="text-desc"> <span th:text="${question.commentCount}"></span> 个回复 • <span
                             th:text="${question.viewCount}"></span> 次浏览 • 创建于 <span
-                            th:text="${#dates.format(question.user.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span></span>
+                            th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>
             </div>
             <nav aria-label="Page navigation">
