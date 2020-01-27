@@ -1,7 +1,9 @@
 package com.zjf.controller;
 
 import com.zjf.dto.CommentCreateDTO;
+import com.zjf.dto.CommentDTO;
 import com.zjf.dto.ResultDTO;
+import com.zjf.enums.CommentTypeEnum;
 import com.zjf.exception.CustomizeErrorCode;
 import com.zjf.model.Comment;
 import com.zjf.model.User;
@@ -9,12 +11,10 @@ import com.zjf.service.CommentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author zjf
@@ -52,5 +52,12 @@ public class CommentController {
         commentService.insert(comment);
         //定义一个对象，ResponseBody自动序列化成一个json返回前端
         return ResultDTO.okOf();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
+    public ResultDTO comments(@PathVariable("id") Long id) {
+        List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(commentDTOS);
     }
 }

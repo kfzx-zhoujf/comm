@@ -1,8 +1,8 @@
 package com.zjf.controller;
 
-import com.zjf.dto.CommentCreateDTO;
 import com.zjf.dto.CommentDTO;
 import com.zjf.dto.QuestionDTO;
+import com.zjf.enums.CommentTypeEnum;
 import com.zjf.service.CommentService;
 import com.zjf.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class QuestionController {
                            Model model) {
 
         QuestionDTO questionDTO = questionService.getById(id);
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
         //增加阅读数
         questionService.incView(id);
         model.addAttribute("question", questionDTO);
