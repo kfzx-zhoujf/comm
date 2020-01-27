@@ -66,6 +66,22 @@ body {
     margin-top: 25px;
 }
 
+.question-tag {
+    margin-right: 5px;
+}
+
+.question-related {
+    line-height: 20px;
+    font-size: 12px;
+    list-style: none;
+    cursor: pointer;
+    padding-left: 0;
+}
+
+question-wechat {
+    width: 100%;
+}
+
 .question-sp {
     margin-top: 0;
 }
