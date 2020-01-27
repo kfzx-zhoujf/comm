@@ -4,10 +4,7 @@ import com.zjf.dto.CommentDTO;
 import com.zjf.enums.CommentTypeEnum;
 import com.zjf.exception.CustomizeErrorCode;
 import com.zjf.exception.CustomizeException;
-import com.zjf.mapper.CommentMapper;
-import com.zjf.mapper.QuestionExtMapper;
-import com.zjf.mapper.QuestionMapper;
-import com.zjf.mapper.UserMapper;
+import com.zjf.mapper.*;
 import com.zjf.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,9 @@ public class CommentService {
     private CommentMapper commentMapper;
 
     @Autowired
+    private CommentExtMapper commentExtMapper;
+
+    @Autowired
     private QuestionMapper questionMapper;
 
     @Autowired
@@ -37,6 +37,7 @@ public class CommentService {
 
     @Autowired
     private UserMapper userMapper;
+
 
     @Transactional
     public void insert(Comment comment) {
@@ -54,14 +55,20 @@ public class CommentService {
             if (dbComment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+
             commentMapper.insert(comment);
+            //增加评论的评论数
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incComment(parentComment);
         } else {
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
             if (question == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            //此处添加事务
+            //此处添加事务，增加事务的评论数
             commentMapper.insert(comment);
             question.setCommentCount(1);
             questionExtMapper.incComment(question);
