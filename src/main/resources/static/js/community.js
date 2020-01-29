@@ -121,8 +121,25 @@ function collapseComments(e) {
                 e.classList.add("active");
             });
         }
+    }
+}
 
-
+//选择标签，放入input框
+function selectTag(e) {
+    var value=e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    //不存在的时候添加，添加时如果有第一个值则加，再添加
+    if (previous.indexOf(value) == -1) {
+        if (previous) {
+            $("#tag").val(previous + ',' + value);
+        } else {
+            $("#tag").val(value);
+        }
     }
 
+}
+
+//展示标签选择栏
+function showSelectTag() {
+    $("#select-tag").show();
 }
