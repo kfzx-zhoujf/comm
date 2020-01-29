@@ -32,6 +32,7 @@
         <table schema="comm" tableName="user" domainObjectName="User" ></table>
         <table schema="comm" tableName="question" domainObjectName="Question" ></table>
         <table schema="comm" tableName="comment" domainObjectName="Comment" ></table>
+        <table schema="comm" tableName="notification" domainObjectName="Notification" ></table>
 
     </context>
 </generatorConfiguration>

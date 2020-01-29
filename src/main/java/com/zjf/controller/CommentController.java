@@ -49,7 +49,7 @@ public class CommentController {
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(user.getId());
         comment.setLikeCount(0L);
-        commentService.insert(comment);
+        commentService.insert(comment,user);
         //定义一个对象，ResponseBody自动序列化成一个json返回前端
         return ResultDTO.okOf();
     }
