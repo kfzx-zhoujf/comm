@@ -81,6 +81,7 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             //此处添加事务，增加事务的评论数
+            comment.setCommentCount(0);
             commentMapper.insert(comment);
             question.setCommentCount(1);
             questionExtMapper.incComment(question);
@@ -89,7 +90,7 @@ public class CommentService {
         }
     }
 
-    private void createNotify(Comment comment, Long receiver, String notifierName, String outTitle, NotificationTypeEnum notificationType, Long outerId) {
+    private void createNotify(Comment comment, Long receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
         //增加通知
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
@@ -99,7 +100,7 @@ public class CommentService {
         notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
         notification.setReceiver(receiver);
         notification.setNotifierName(notifierName);
-        notification.setOuterTitle(outTitle);
+        notification.setOuterTitle(outerTitle);
         notificationMapper.insert(notification);
     }
 
