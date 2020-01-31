@@ -2,6 +2,7 @@ package com.zjf.service;
 
 import com.zjf.dto.PaginationDTO;
 import com.zjf.dto.QuestionDTO;
+import com.zjf.dto.QuestionQueryDTO;
 import com.zjf.exception.CustomizeErrorCode;
 import com.zjf.exception.CustomizeException;
 import com.zjf.mapper.QuestionExtMapper;
@@ -38,11 +39,21 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search, Integer page, Integer size) {
+        //添加search
+        if (StringUtils.isNotBlank(search)) {
+            String[] tags = StringUtils.split(search, " ");//搜索按空格分隔
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+
+        }
+
         PaginationDTO paginationDTO = new PaginationDTO();
         //通过example创建
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+        //Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
         //Integer totalCount =  questionMapper.count();
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         paginationDTO.setPagination(totalCount, page, size);
 
 
@@ -51,7 +62,10 @@ public class QuestionService {
         //用生成器的插件实现分页
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+        //List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions =questionExtMapper.selectBySearch(questionQueryDTO);
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
@@ -176,7 +190,7 @@ public class QuestionService {
         List<Question> questions = questionExtMapper.selectRelated(question);
         List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
             QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(q,questionDTO);
+            BeanUtils.copyProperties(q, questionDTO);
             return questionDTO;
         }).collect(Collectors.toList());
         return questionDTOS;

@@ -11,16 +11,5 @@
 [Git](https://git-scm.com/download)   
 [Visual Paradigm](https://www.visual-paradigm.com)  
 [pandao editor-md](https://github.com/pandao/editor.md)
+[iconfont](https://www.iconfont.cn/)
 ## 脚本
-```sql
-create table user
-(
-    id           int auto_increment
-        primary key,
-    account_id   varchar(100) null,
-    name         varchar(50)  null,
-    token        char(36)     null,
-    GMT_CREATE   bigint       null,
-    GMT_MODIFIED bigint       null
-);
-```

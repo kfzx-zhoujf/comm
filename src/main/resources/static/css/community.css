@@ -133,3 +133,8 @@ body {
     border-radius: 4px;
     margin: 4px;
 }
+
+.footer {
+    padding: 10px 25%;
+    color :#666;
+}
