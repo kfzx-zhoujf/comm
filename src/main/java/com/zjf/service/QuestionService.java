@@ -39,7 +39,7 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PaginationDTO list(String search, Integer page, Integer size) {
+    public PaginationDTO list(String search, String tag, Integer page, Integer size) {
         //添加search
         if (StringUtils.isNotBlank(search)) {
             String[] tags = StringUtils.split(search, " ");//搜索按空格分隔
@@ -53,6 +53,7 @@ public class QuestionService {
         //Integer totalCount =  questionMapper.count();
         QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
         questionQueryDTO.setSearch(search);
+        questionQueryDTO.setTag(tag);
         Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         paginationDTO.setPagination(totalCount, page, size);
 
